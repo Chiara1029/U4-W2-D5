@@ -1,4 +1,4 @@
-package org.library;
+package it.library;
 
 import org.junit.jupiter.api.Test;
 
