@@ -23,7 +23,7 @@ public class LibraryArchive {
 
     public void addBook(LibraryItem item){
         bookArchive.add(item);
-        System.out.println(item.getTitle() + " has been added.");
+        System.out.println(item.getTitle() + " has been added in Books.");
     }
     public void removeBook(int isbn){
         bookArchive.removeIf(e -> e.getIsbnCode() == isbn);
@@ -31,7 +31,7 @@ public class LibraryArchive {
     }
     public void addMagazine(LibraryItem item){
         magazineArchive.add(item);
-        System.out.println(item.getTitle() + " has been added.");
+        System.out.println(item.getTitle() + " has been added in Magazines.");
     }
     public void removeMagazine(int isbn){
         magazineArchive.removeIf(e -> e.getIsbnCode() == isbn);
@@ -75,9 +75,9 @@ public class LibraryArchive {
         List<LibraryItem> foundBooks = bookArchive.stream()
                 .filter(e -> e instanceof Book && ((Book) e).getAuthor().equalsIgnoreCase(author)).collect(Collectors.toList());
         if (!foundBooks.isEmpty()) {
-            System.out.println("Libri trovati per l'autore " + author + ": " + foundBooks);
+            System.out.println("Books written by " + author + ": " + foundBooks);
         } else {
-            System.out.println("Nessun libro trovato per l'autore " + author + ".");
+            System.out.println("No books written by " + author + ".");
         }
     }
 
@@ -107,6 +107,8 @@ public class LibraryArchive {
     public List<LibraryItem> getMagazineArchive() {
         return magazineArchive;
     }
+
+
 
     @Override
     public String toString() {

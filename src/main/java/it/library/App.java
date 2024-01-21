@@ -9,7 +9,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 public class App {
     public static void main(String[] args) throws IOException {
@@ -63,22 +63,51 @@ public class App {
         for (LibraryItem item : archive.getBookArchive()) {
             StringBuilder str = new StringBuilder();
             if (item instanceof Book) {
-                str.append(((Book) item).getAuthor()).append("@").append(((Book) item).getTitle());
+                str.append(((Book) item).getAuthor()).append("@").append(((Book) item).getGenre());
             }
-            writeFile.append(item.getIsbnCode()).append("@").append(item.getTitle()).append("@").append(item.getPublicationYear()).append("@").append(item.getNumPages()).append("@").append(str).append("\n");
+            writeFile.append(item.getIsbnCode()).append("@").append(item.getTitle()).append("@").append(item.getPublicationYear()).append("@").append(item.getNumPages()).append("@").append(str).append("#");
         }
         for (LibraryItem item : archive.getMagazineArchive()) {
             StringBuilder str = new StringBuilder();
             if (item instanceof Magazine) {
-                str.append(((Magazine) item).getPeriodicity()).append("@").append(((Magazine) item).getTitle());
+                str.append(((Magazine) item).getPeriodicity()).append("@");
             }
-            writeFile.append(item.getIsbnCode()).append("@").append(item.getTitle()).append("@").append(item.getPublicationYear()).append("@").append(item.getNumPages()).append("@").append(str).append("\n");
+            writeFile.append(item.getIsbnCode()).append("@").append(item.getTitle()).append("@").append(item.getPublicationYear()).append("@").append(item.getNumPages()).append("@").append(str).append("#");
         }
         File file = new File("src/main/java/it/library/file/archive.txt");
         FileUtils.writeStringToFile(file, writeFile.toString(), "UTF-8");
     }
 
     private static String readFile(String filePath) throws IOException{
-        return FileUtils.readFileToString(new File(filePath), StandardCharsets.UTF_8);
+        LibraryArchive archive = new LibraryArchive();
+        String file = FileUtils.readFileToString(new File("src/main/java/it/library/file/archive.txt"), "UTF-8");
+        String[] archiveFile = file.split("#");
+        System.out.println(Arrays.toString(archiveFile));
+        for(int i =0; i<archiveFile.length; i++){
+            String[] singleItem = archiveFile[i].split("@");
+            if(singleItem.length > 5){
+                Book book = new Book(singleItem[1], Integer.parseInt(singleItem[2]), Integer.parseInt(singleItem[3]), singleItem[4], singleItem[5]);
+                book.setIsbnCode(Integer.parseInt(singleItem[0]));
+                archive.addBook(book);
+            } else{
+                Magazine magazine = new Magazine(singleItem[1], Integer.parseInt(singleItem[2]), Integer.parseInt(singleItem[3]), getEnum(singleItem[4]));
+                magazine.setIsbnCode(Integer.parseInt(singleItem[0]));
+                archive.addMagazine(magazine);
+            }
+        }
+        System.out.println(archive);
+        return file;
+    }
+
+    public static Periodicity getEnum(String param){
+        switch (param) {
+            case "WEEKLY":
+                return Periodicity.WEEKLY;
+            case "MONTHLY":
+                return Periodicity.MONTHLY;
+            case "HALFYEARLY":
+                return Periodicity.HALFYEARLY;
+        }
+        return null;
     }
 }
