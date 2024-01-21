@@ -1,19 +1,22 @@
 package it.library.superClass;
 
+import java.util.Random;
+
 public abstract class LibraryItem {
-    private String isbnCode;
+    private int isbnCode;
     private String title;
     private int publicationYear;
     private int numPages;
 
-    public LibraryItem(String isbnCode, String title, int publicationYear, int numPages) {
-        this.isbnCode = isbnCode;
+    public LibraryItem(String title, int publicationYear, int numPages) {
+        Random random = new Random();
+        this.isbnCode = random.nextInt(3000 - 2000) + 2000;;
         this.title = title;
         this.publicationYear = publicationYear;
         this.numPages = numPages;
     }
 
-    public String getIsbnCode() {
+    public int getIsbnCode() {
         return isbnCode;
     }
 
