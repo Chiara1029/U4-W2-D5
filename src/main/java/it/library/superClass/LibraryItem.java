@@ -16,6 +16,22 @@ public abstract class LibraryItem {
         this.numPages = numPages;
     }
 
+    public void setIsbnCode(int isbnCode) {
+        this.isbnCode = isbnCode;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setPublicationYear(int publicationYear) {
+        this.publicationYear = publicationYear;
+    }
+
+    public void setNumPages(int numPages) {
+        this.numPages = numPages;
+    }
+
     public int getIsbnCode() {
         return isbnCode;
     }

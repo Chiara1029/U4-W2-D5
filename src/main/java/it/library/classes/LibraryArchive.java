@@ -23,32 +23,62 @@ public class LibraryArchive {
 
     public void addBook(LibraryItem item){
         bookArchive.add(item);
+        System.out.println(item.getTitle() + " has been added.");
     }
     public void removeBook(int isbn){
         bookArchive.removeIf(e -> e.getIsbnCode() == isbn);
+        System.out.println("Book removed");
     }
     public void addMagazine(LibraryItem item){
         magazineArchive.add(item);
+        System.out.println(item.getTitle() + " has been added.");
     }
     public void removeMagazine(int isbn){
         magazineArchive.removeIf(e -> e.getIsbnCode() == isbn);
+        System.out.println("Magazine removed");
     }
 
-    public Optional<LibraryItem> searchBookIsbn (int isbn){
-        return bookArchive.stream().filter(e -> e.getIsbnCode() == isbn).findFirst();
+    public void searchBookIsbn (int isbn){
+        Optional<LibraryItem> foundBook = bookArchive.stream().filter(e -> e.getIsbnCode() == isbn).findFirst();
+        if(foundBook.isPresent()) {
+            System.out.println("Here's: " + foundBook.get());
+        } else {
+            System.out.println("There are no books with this code.");
+        }
     }
-    public Optional<LibraryItem> searchMagazineIsbn (int isbn){
-        return magazineArchive.stream().filter(e -> e.getIsbnCode() == isbn).findFirst();
+    public void searchMagazineIsbn (int isbn){
+        Optional<LibraryItem> foundMagazine = magazineArchive.stream().filter(e -> e.getIsbnCode() == isbn).findFirst();
+        if(foundMagazine.isPresent()) {
+            System.out.println("Here's: " + foundMagazine.get());
+        } else {
+            System.out.println("There are no magazines with this code.");
+        }
     }
 
-    public List<LibraryItem> searchBookByYear (int publicationYear){
-        return bookArchive.stream().filter(e-> e.getPublicationYear() == publicationYear).collect(Collectors.toList());
+    public void searchBookByYear (int publicationYear){
+        List<LibraryItem> foundBooks =  bookArchive.stream().filter(e-> e.getPublicationYear() == publicationYear).collect(Collectors.toList());
+        if(!foundBooks.isEmpty()){
+            System.out.println("Books published in " + publicationYear + ": " + foundBooks );
+        }else {
+            System.out.println("No books published in " + publicationYear);
+        }
     }
-    public List<LibraryItem> searchMagazineByYear (int publicationYear){
-        return magazineArchive.stream().filter(e-> e.getPublicationYear() == publicationYear).collect(Collectors.toList());
+    public void searchMagazineByYear (int publicationYear){
+        List<LibraryItem> foundMagazines = magazineArchive.stream().filter(e-> e.getPublicationYear() == publicationYear).collect(Collectors.toList());
+        if(!foundMagazines.isEmpty()){
+            System.out.println("Magazine published in " + publicationYear + ": " + foundMagazines );
+        }else {
+            System.out.println("No magazine published in " + publicationYear);
+        }
     }
-    public List<LibraryItem> searchByAuthor (String author){
-        return bookArchive.stream().filter(e -> e instanceof Book && ((Book) e).getAuthor().toLowerCase().equals(author)).collect(Collectors.toList());
+    public void searchByAuthor (String author){
+        List<LibraryItem> foundBooks = bookArchive.stream()
+                .filter(e -> e instanceof Book && ((Book) e).getAuthor().equalsIgnoreCase(author)).collect(Collectors.toList());
+        if (!foundBooks.isEmpty()) {
+            System.out.println("Libri trovati per l'autore " + author + ": " + foundBooks);
+        } else {
+            System.out.println("Nessun libro trovato per l'autore " + author + ".");
+        }
     }
 
     //FAKER
