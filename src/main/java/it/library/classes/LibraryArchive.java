@@ -43,7 +43,7 @@ public class LibraryArchive {
         return magazineArchive.stream().filter(e-> e.getPublicationYear() == publicationYear).collect(Collectors.toList());
     }
     public List<LibraryItem> searchByAuthor (String author){
-        return bookArchive.stream().filter(e -> e instanceof Book && ((Book) e).getAuthor().equals(author)).collect(Collectors.toList());
+        return bookArchive.stream().filter(e -> e instanceof Book && ((Book) e).getAuthor().toLowerCase().equals(author)).collect(Collectors.toList());
     }
 
     public List<LibraryItem> getBookArchive() {
